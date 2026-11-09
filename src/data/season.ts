@@ -26,7 +26,8 @@ export function pointsFor(place: number, eventNo: number) {
 export const yearOf = (ev: SeasonEvent) => ev.date.slice(0, 4);
 
 /** "Sat 14 Nov 2026" */
-export const fullDate = (ev: SeasonEvent) => `${ev.dateLabel} ${yearOf(ev)}`;
+export const fullDate = (ev: SeasonEvent) =>
+  ev.date ? `${ev.dateLabel} ${yearOf(ev)}` : ev.dateLabel;
 
 /** "2026-10-03" becomes "Sat 03 Oct". */
 export function dateLabelFor(iso: string): string {
@@ -87,8 +88,10 @@ export function nextEvent(season: Season): SeasonEvent {
 
 /** Whole days from today to the next event. Never negative. */
 export function daysUntilNextEvent(season: Season, now = new Date()) {
+  const { date } = nextEvent(season);
+  if (!date) return 0; // date not set yet
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const target = new Date(nextEvent(season).date + 'T00:00:00');
+  const target = new Date(date + 'T00:00:00');
   return Math.max(0, Math.round((target.getTime() - today.getTime()) / 86400000));
 }
 

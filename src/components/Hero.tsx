@@ -28,7 +28,7 @@ export default function Hero() {
           <span className="hero__title-main">{ev.name}</span>
         </h1>
         <div className="hero__meta">
-          {[fullDate(ev), ev.time, ev.venue].map((s) => (
+          {[fullDate(ev), ev.time, ev.venue].filter(Boolean).map((s) => (
             <span key={s}>{s}</span>
           ))}
         </div>
@@ -41,10 +41,14 @@ export default function Hero() {
             All eight events
           </a>
         </div>
-        <p className="hero__countdown">
-          <b>{pad2(days)}</b>
-          <span className="label">{days === 1 ? 'day' : 'days'} until the whistle</span>
-        </p>
+        {ev.date && (
+          <p className="hero__countdown">
+            <b>{pad2(days)}</b>
+            <span className="label">
+              {days === 0 ? 'game day' : `${days === 1 ? 'day' : 'days'} until the whistle`}
+            </span>
+          </p>
+        )}
       </div>
     </section>
   );

@@ -240,7 +240,7 @@ function EventForm({
             type="date"
             value={ev.date}
             onChange={(e) =>
-              onChange({ date: e.target.value, dateLabel: dateLabelFor(e.target.value) })
+              onChange({ date: e.target.value, dateLabel: dateLabelFor(e.target.value) || 'TBD' })
             }
           />
         </Field>

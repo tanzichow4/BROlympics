@@ -8,16 +8,7 @@ import type { Season } from './types';
 const STATUSES = ['final', 'next', 'scheduled'];
 const isStr = (v: unknown): v is string => typeof v === 'string';
 const ISO = /^\d{4}-\d{2}-\d{2}$/;
-const TEXT_FIELDS = [
-  'name',
-  'dateLabel',
-  'time',
-  'venue',
-  'format',
-  'rule',
-  'measure',
-  'ruling',
-] as const;
+const TEXT_FIELDS = ['name', 'dateLabel', 'time', 'format', 'rule', 'measure', 'ruling'] as const;
 
 export function validateSeason(input: unknown): string[] {
   const errors: string[] = [];
@@ -48,8 +39,9 @@ export function validateSeason(input: unknown): string[] {
       if (!isStr(ev[k]) || !ev[k].trim()) errors.push(`${where}: "${k}" is required.`);
       else if (ev[k].length > 400) errors.push(`${where}: "${k}" is too long.`);
     }
-    if (!isStr(ev.date) || !ISO.test(ev.date) || Number.isNaN(Date.parse(ev.date)))
-      errors.push(`${where}: date must be a real date.`);
+    // An empty date means "TBD".
+    if (!isStr(ev.date) || (ev.date && (!ISO.test(ev.date) || Number.isNaN(Date.parse(ev.date)))))
+      errors.push(`${where}: date must be a real date, or left empty for TBD.`);
     if (!STATUSES.includes(ev.status)) errors.push(`${where}: status is not valid.`);
     if (ev.status === 'next') nextCount += 1;
     if (!(ev.court in COURTS)) errors.push(`${where}: court "${ev.court}" is not a known motif.`);

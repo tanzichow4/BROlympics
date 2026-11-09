@@ -19,7 +19,7 @@ export default function Schedule() {
               <span className="schedule__main">
                 <span className="schedule__name">{ev.name}</span>
                 <span className="schedule__where">
-                  {ev.venue} · {ev.time}
+                  {[ev.venue, ev.time].filter(Boolean).join(' · ')}
                 </span>
               </span>
               <Badge event={ev} />

@@ -9,7 +9,7 @@ describe('App', () => {
 
   it('shows the next event in the hero', () => {
     render(<App />);
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/table tennis/i);
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/dodgeball/i);
   });
 
   it('lists all eight events in the schedule', () => {
@@ -18,13 +18,18 @@ describe('App', () => {
     expect(within(list).getAllByRole('listitem')).toHaveLength(8);
   });
 
-  it('ranks the standings by points', () => {
+  it('shows a zero-point table before any event is played', () => {
     render(<App />);
     const body = document.querySelector('#standings tbody') as HTMLElement;
     const rows = within(body).getAllByRole('row');
     expect(rows).toHaveLength(5);
-    expect(rows[0]).toHaveTextContent('Team Navy');
-    expect(rows[0]).toHaveClass('is-leader');
+    expect(rows[0]).not.toHaveClass('is-leader');
+  });
+
+  it('shows TBD for events without a date', () => {
+    render(<App />);
+    const list = document.querySelector('#schedule ol') as HTMLElement;
+    expect(within(list).getAllByText('TBD', { exact: false }).length).toBeGreaterThanOrEqual(7);
   });
 
   it('toggles and remembers the theme', async () => {
@@ -38,8 +43,8 @@ describe('App', () => {
   it('switches events with the keyboard', async () => {
     render(<App />);
     const tabs = screen.getAllByRole('tab');
-    expect(tabs[3]).toHaveAttribute('aria-selected', 'true');
-    tabs[3].focus();
+    expect(tabs[0]).toHaveAttribute('aria-selected', 'true');
+    tabs[0].focus();
     await userEvent.keyboard('{End}');
     expect(tabs[7]).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByRole('tabpanel')).toHaveTextContent(/flag football/i);
@@ -47,9 +52,9 @@ describe('App', () => {
     expect(tabs[0]).toHaveAttribute('aria-selected', 'true');
   });
 
-  it('shows results for a finished event', async () => {
+  it('shows an empty state for an event with no result yet', async () => {
     render(<App />);
     await userEvent.click(screen.getByRole('tab', { name: /basketball/i }));
-    expect(within(screen.getByRole('tabpanel')).getAllByRole('row')).toHaveLength(6);
+    expect(screen.getByRole('tabpanel')).toHaveTextContent(/no result yet/i);
   });
 });

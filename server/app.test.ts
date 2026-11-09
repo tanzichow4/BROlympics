@@ -6,6 +6,7 @@ import request from 'supertest';
 import { DEFAULT_SEASON } from '../src/data/defaults';
 import { createApp } from './app';
 import { createToken, verifyToken } from './auth';
+import { seasonWithFinal } from '../src/test/fixtures';
 
 const PASSWORD = 'correct horse';
 const SECRET = 'a-test-secret-that-is-long-enough';
@@ -81,7 +82,7 @@ describe('saving', () => {
 
   it('rejects invalid data with a list of problems', async () => {
     const cookie = await signIn();
-    const bad = structuredClone(DEFAULT_SEASON);
+    const bad = seasonWithFinal();
     bad.events[0].results.pop();
     const res = await request(app).put('/api/season').set('Cookie', cookie).send(bad);
     expect(res.status).toBe(400);

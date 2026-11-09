@@ -39,7 +39,7 @@ export default function Standings() {
             </thead>
             <tbody>
               {standings.map((row) => (
-                <tr key={row.id} className={row.pos === 1 ? 'is-leader' : undefined}>
+                <tr key={row.id} className={row.pos === 1 && row.pts > 0 ? 'is-leader' : undefined}>
                   <td className="league__pos">{row.pos}</td>
                   <td style={{ width: '1%' }}>
                     <Swatch team={row.team} />
