@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  
+  <defs>
+    <path id="seal-arc-top" d="M 30 100 A 70 70 0 0 1 170 100" fill="none"></path>
+    <path id="seal-arc-bot" d="M 16 100 A 84 84 0 0 0 184 100" fill="none"></path>
+  </defs>
+  <circle cx="100" cy="100" r="96" fill="none" stroke="#0B0F0D" stroke-width="3"></circle>
+  <circle cx="100" cy="100" r="62" fill="none" stroke="#0B0F0D" stroke-width="1.5"></circle>
+  <text font-family="Bahnschrift SemiCondensed, Bahnschrift, Barlow Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="22" letter-spacing="7" fill="#0B0F0D"><textPath href="#seal-arc-top" startOffset="50%" text-anchor="middle">BROLYMPICS</textPath></text>
+  <text font-family="Bahnschrift SemiCondensed, Bahnschrift, Barlow Condensed, Arial Narrow, sans-serif" font-weight="600" font-size="15" letter-spacing="6" fill="#0B0F0D"><textPath href="#seal-arc-bot" startOffset="50%" text-anchor="middle">EST. 2026</textPath></text>
+  <circle cx="21" cy="100" r="3" fill="#D7322B"></circle>
+  <circle cx="179" cy="100" r="3" fill="#D7322B"></circle>
+  <text x="100" y="124" text-anchor="middle" font-family="Georgia, Gelasio, serif" font-weight="700" font-style="italic" font-size="72" fill="#0B0F0D">B</text>
+  <rect x="72" y="134" width="56" height="5" fill="#D7322B"></rect>
+</svg>

@@ -1,0 +1,835 @@
+/* Brolympics — site styles
+ *
+ * Layered on top of css/tokens.css. Every colour, size and gap here comes from a
+ * kit variable. If you find yourself typing a hex value, it probably belongs in
+ * the kit instead.
+ *
+ * Contents
+ *   1. Reset and page frame
+ *   2. Shared helpers (type classes extended from the kit)
+ *   3. Header
+ *   4. Hero
+ *   5. Sections
+ *   6. Standings
+ *   7. Schedule
+ *   8. Events (tab rack + panel)
+ *   9. Footer
+ *  10. Responsive and motion
+ */
+
+/* ---------- 1. Reset and page frame ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.6;
+  /* Keep the page clear of the notch / home indicator on phones. */
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Fixed chalk inks, for use on turf and other grounds that never change with the
+   theme. The themed --hairline / --ink-muted flip in the day theme, which would
+   make them invisible on the green. */
+:root {
+  --chalk-line: rgba(238, 240, 232, 0.14);
+  --on-turf-muted: rgba(238, 240, 232, 0.68);
+}
+
+/* ---------- 2. Shared helpers ---------- */
+
+/* The kit's .label sets the face, size and tracking. The brand always sets it
+   uppercase in ink-muted, so that part lives here. */
+.label {
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.wrap {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  /* max() so the gutter also clears a system bar at the phone's side. */
+  padding-left: max(var(--space-4), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--space-4), env(safe-area-inset-right, 0px));
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Present to screen readers, invisible on screen. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* Responsive overrides of the kit's fixed display sizes. */
+.h2 {
+  font-size: clamp(28px, 4vw, 40px);
+}
+
+.badge {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 6px 9px;
+  white-space: nowrap;
+  display: inline-block;
+}
+.badge--final,
+.badge--scheduled {
+  border: 1px solid var(--hairline);
+  color: var(--ink-muted);
+}
+.badge--next {
+  background: var(--referee-red);
+  color: var(--chalk);
+}
+
+.swatch {
+  width: 10px;
+  height: 38px;
+  display: block;
+}
+/* Bone and Blackout need an outline or they disappear on their ground. */
+.swatch--outlined {
+  outline: 1px solid var(--hairline);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px var(--space-5);
+  font-family: var(--font-label);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: var(--radius-0);
+  cursor: pointer;
+}
+.btn--primary {
+  background: var(--chalk);
+  color: var(--turf-deep);
+}
+.btn--primary:hover {
+  background: var(--trophy-yellow);
+}
+.btn--ghost {
+  background: none;
+  border-color: var(--on-turf-muted);
+  color: var(--chalk);
+}
+.btn--ghost:hover {
+  border-color: var(--chalk);
+}
+
+/* ---------- 3. Header ---------- */
+
+.site-header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 9;
+  background: var(--turf-deep);
+  color: var(--chalk);
+  border-bottom: 1px solid var(--chalk-line);
+}
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+  padding-block: var(--space-3);
+}
+
+/* The wordmark is set in type, not an image. Underline "Bro" in referee-red. */
+.site-header .wordmark {
+  font-size: 26px;
+  color: var(--chalk);
+  text-decoration: none;
+  margin-right: auto;
+}
+.wordmark u {
+  text-decoration: none;
+  background: linear-gradient(var(--referee-red), var(--referee-red)) 0 88% / 100% 0.09em no-repeat;
+}
+
+.site-nav {
+  display: flex;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+.site-nav a {
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-turf-muted);
+  text-decoration: none;
+}
+.site-nav a:hover {
+  color: var(--chalk);
+}
+
+.theme-toggle {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: none;
+  color: var(--on-turf-muted);
+  border: 1px solid var(--chalk-line);
+  border-radius: var(--radius-0);
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.theme-toggle:hover {
+  color: var(--chalk);
+  border-color: var(--chalk);
+}
+
+/* ---------- 4. Hero ---------- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  color: var(--chalk);
+  /* The only gradient in the brand: a floodlight over the turf. */
+  background: radial-gradient(
+    90% 120% at 80% -10%,
+    var(--turf-glow) 0%,
+    var(--turf) 45%,
+    var(--turf-deep) 100%
+  );
+}
+.chalk-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.chalk-lines * {
+  fill: none;
+  stroke: var(--chalk-line);
+  stroke-width: 2;
+}
+
+.hero .wrap {
+  position: relative;
+  padding-block: var(--space-7) var(--space-8);
+  display: grid;
+  gap: var(--space-5);
+}
+.hero .label {
+  color: var(--on-turf-muted);
+}
+
+/* The yellow title pattern: a small Georgia italic lowercase word above a big
+   Barlow Condensed uppercase word. No outline, no underline. */
+.hero__title {
+  display: grid;
+  gap: 2px;
+}
+.hero__title-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(20px, 3.4vw, 32px);
+  line-height: 1.1;
+}
+.hero__title-main {
+  font-family: var(--font-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(48px, 11vw, 104px);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  color: var(--trophy-yellow);
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hero__meta span + span::before {
+  content: '· ';
+  color: var(--on-turf-muted);
+}
+
+.hero__tagline {
+  margin: 0;
+  font-size: clamp(19px, 2.4vw, 22px);
+  line-height: 1.45;
+  max-width: 34ch;
+}
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.hero__countdown {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  border-top: 1px solid var(--chalk-line);
+  padding-top: var(--space-4);
+}
+.hero__countdown b {
+  font-family: var(--font-label);
+  font-size: clamp(40px, 7vw, 56px);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--trophy-yellow);
+  font-variant-numeric: tabular-nums;
+}
+.hero__countdown .label {
+  color: var(--on-turf-muted);
+}
+
+/* ---------- 5. Sections ---------- */
+
+.section {
+  padding-block: var(--space-8);
+}
+.section + .section {
+  padding-top: 0;
+}
+
+.section__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+/* Any table wide enough to need it scrolls inside its own box, so the page
+   itself never scrolls sideways. */
+.table-scroll {
+  overflow-x: auto;
+}
+
+/* ---------- 6. Standings ---------- */
+
+.league {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 620px;
+}
+.league th {
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-align: left;
+  padding: 0 var(--space-3) var(--space-3);
+}
+.league th.is-right,
+.league td.is-right {
+  text-align: right;
+}
+.league td {
+  padding: var(--space-3);
+  background: var(--surface);
+  border-top: 1px solid var(--hairline);
+  vertical-align: middle;
+}
+.league tbody td:first-child {
+  padding-left: var(--space-4);
+}
+.league tbody td:last-child {
+  padding-right: var(--space-4);
+}
+
+.league__pos {
+  font-family: var(--font-label);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+  width: 1%;
+}
+.league__team {
+  font-family: var(--font-label);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.league__pts {
+  font-family: var(--font-label);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+/* The leader's points are the one red word on the screen. */
+.league tr.is-leader .league__pts {
+  color: var(--rule-red);
+}
+
+.cell-muted {
+  font-family: var(--font-label);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.form {
+  display: flex;
+  gap: var(--space-1);
+}
+.form__chip {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  min-width: 24px;
+  height: 24px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--hairline);
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+.form__chip--win {
+  background: var(--trophy-yellow);
+  color: var(--night);
+  border-color: transparent;
+}
+.form__chip--podium {
+  color: var(--ink);
+}
+
+.table-foot {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+}
+
+/* ---------- 7. Schedule ---------- */
+
+.schedule {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.schedule li {
+  display: grid;
+  grid-template-columns: 56px 128px 1fr auto;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-3);
+  border-top: 1px solid var(--hairline);
+}
+.schedule li:last-child {
+  border-bottom: 1px solid var(--hairline);
+}
+.schedule li.is-next {
+  background: var(--surface);
+}
+
+.schedule__no {
+  font-family: var(--font-label);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+.schedule__date {
+  font-family: var(--font-label);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.schedule__name {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.25;
+}
+.schedule__where {
+  display: block;
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* ---------- 8. Events ---------- */
+
+.tab-rack {
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: var(--space-6);
+  overflow-x: auto;
+}
+.tab-rack__inner {
+  display: flex;
+  min-width: max-content;
+}
+
+.tab {
+  position: relative;
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  text-align: left;
+  display: grid;
+  gap: var(--space-1);
+  color: var(--ink-muted);
+  font-family: var(--font-label);
+}
+.tab__no {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+.tab__name {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.tab:hover {
+  color: var(--ink);
+}
+.tab[aria-selected='true'] {
+  color: var(--ink);
+  border-bottom-color: var(--referee-red);
+}
+.tab__dot {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-2);
+  width: 6px;
+  height: 6px;
+  background: var(--referee-red);
+  border-radius: var(--radius-round);
+}
+
+.event-panel {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.event-head {
+  position: relative;
+  overflow: hidden;
+  background: var(--turf);
+  color: var(--chalk);
+  padding: var(--space-6) var(--space-5);
+  display: grid;
+  gap: var(--space-3);
+}
+.event-head .chalk-lines {
+  position: absolute;
+  inset: 0;
+}
+.event-head > :not(svg) {
+  position: relative;
+}
+.event-head .label {
+  color: var(--on-turf-muted);
+}
+.event-head__title {
+  font-family: var(--font-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(38px, 7vw, 68px);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  color: var(--trophy-yellow);
+}
+.event-head__format {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.45;
+  max-width: 46ch;
+}
+.event-head .badge {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+}
+
+.event-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: var(--space-6);
+}
+.event-col {
+  min-width: 0;
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.result {
+  width: 100%;
+  border-collapse: collapse;
+}
+.result th {
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-align: left;
+  padding: 0 var(--space-3) var(--space-2);
+}
+.result th.is-right,
+.result td.is-right {
+  text-align: right;
+}
+.result td {
+  padding: var(--space-3);
+  border-top: 1px solid var(--hairline);
+  vertical-align: middle;
+}
+.result__place {
+  font-family: var(--font-label);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+}
+.result tr.is-winner .result__place {
+  color: var(--ink);
+}
+.result__team {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.result__team .swatch {
+  height: 22px;
+}
+.result__team-name {
+  font-family: var(--font-label);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.result__pts {
+  font-family: var(--font-label);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+}
+.stat-cell {
+  background: var(--surface);
+  padding: var(--space-4);
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+  min-width: 0;
+}
+.stat-cell b {
+  font-family: var(--font-label);
+  font-size: clamp(30px, 4vw, 38px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.stat-cell__note {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.ruling {
+  margin: 0;
+  border-left: 3px solid var(--referee-red);
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
+  max-width: 48ch;
+}
+
+.rule-text {
+  margin: 0;
+  color: var(--ink-muted);
+  max-width: var(--text-max);
+}
+
+.event-empty {
+  background: var(--surface);
+  padding: var(--space-6) var(--space-5);
+  display: grid;
+  gap: var(--space-3);
+}
+.event-empty__big {
+  font-family: var(--font-label);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.event-empty p {
+  margin: 0;
+  max-width: 46ch;
+}
+
+/* ---------- 9. Footer ---------- */
+
+.site-footer {
+  background: var(--turf-deep);
+  color: var(--chalk);
+}
+.site-footer .wrap {
+  padding-block: var(--space-8);
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+/* The seal gets clear space of at least a quarter of its width on every side. */
+.site-footer .seal {
+  width: 96px;
+  height: 96px;
+}
+.site-footer .label {
+  color: var(--on-turf-muted);
+}
+.site-footer p {
+  margin: 0;
+  max-width: 56ch;
+}
+.site-footer__fine {
+  font-size: 15px;
+  color: var(--on-turf-muted);
+}
+.site-footer__text {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* ---------- 10. Responsive and motion ---------- */
+
+@media (max-width: 860px) {
+  .event-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .schedule li {
+    grid-template-columns: 44px minmax(0, 1fr);
+    row-gap: var(--space-2);
+  }
+  .schedule li > :not(.schedule__no) {
+    grid-column: 2;
+  }
+  .schedule li .badge {
+    justify-self: start;
+  }
+  .site-footer .wrap {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .stat-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Motion is quick and physical. Nothing floats, bounces or fades slowly. */
+@media (prefers-reduced-motion: no-preference) {
+  .event-panel {
+    animation: slam-in 0.14s ease-out both;
+  }
+  @keyframes slam-in {
+    from {
+      opacity: 0.35;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

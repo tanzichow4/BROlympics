@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Brolympics — Season 1</title>
+  <meta name="description" content="Standings, schedule and event stats for Brolympics Season 1. Twenty bros. Five teams. Zero flakes.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0a2a21">
+
+  <!-- Sharing card. Add an og:image (1200x630) once there is a photo worth using. -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Brolympics — Season 1">
+  <meta property="og:description" content="Twenty bros. Five teams. Zero flakes.">
+
+  <link rel="icon" href="assets/brolympics-seal-chalk.svg" type="image/svg+xml">
+
+  <!-- Barlow Condensed is the scoreboard face. Georgia is built into every
+       computer and phone, so it needs no loading; Gelasio is its web fallback. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Gelasio:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="#top"><u>Bro</u>lympics</a>
+    <nav class="site-nav" aria-label="Sections">
+      <a href="#standings">Standings</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#events">Events</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">Day</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ---------- Hero ---------- -->
+  <section class="hero">
+    <svg class="chalk-lines" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <line x1="880" y1="0" x2="880" y2="520"/>
+      <circle cx="880" cy="285" r="140"/>
+      <rect x="1080" y="140" width="180" height="290"/>
+      <line x1="0" y1="470" x2="1200" y2="470"/>
+    </svg>
+    <div class="wrap">
+      <span class="label" id="hero-eyebrow"></span>
+      <h1 class="hero__title">
+        <span class="hero__title-accent">the next event is</span>
+        <span class="hero__title-main" id="hero-title"></span>
+      </h1>
+      <div class="hero__meta" id="hero-meta"></div>
+      <p class="lede hero__tagline">Twenty bros. Five teams. Zero flakes.</p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#standings">See the standings</a>
+        <a class="btn btn--ghost" href="#events">All eight events</a>
+      </div>
+      <p class="hero__countdown">
+        <b id="hero-days"></b>
+        <span class="label" id="hero-days-label"></span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- Standings ---------- -->
+  <section class="section" id="standings">
+    <div class="wrap">
+      <div class="section__head">
+        <h2 class="h2">Standings</h2>
+        <span class="label" id="standings-after"></span>
+      </div>
+      <div class="table-scroll">
+        <table class="league">
+          <thead>
+            <tr>
+              <th scope="col">Pos</th>
+              <th scope="col"><span class="visually-hidden">Colour</span></th>
+              <th scope="col">Team</th>
+              <th scope="col">Form</th>
+              <th scope="col" class="is-right">Events won</th>
+              <th scope="col" class="is-right">Best</th>
+              <th scope="col" class="is-right">Pts</th>
+            </tr>
+          </thead>
+          <tbody id="standings-body"></tbody>
+        </table>
+      </div>
+      <div class="table-foot">
+        <span class="label" id="standings-scoring"></span>
+        <span class="label" id="standings-remaining"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- Schedule ---------- -->
+  <section class="section" id="schedule">
+    <div class="wrap">
+      <div class="section__head">
+        <h2 class="h2">Schedule</h2>
+        <span class="label">Season 1 · eight events</span>
+      </div>
+      <ol class="schedule" id="schedule-list"></ol>
+    </div>
+  </section>
+
+  <!-- ---------- Events ---------- -->
+  <section class="section" id="events">
+    <div class="wrap">
+      <div class="section__head">
+        <h2 class="h2">The eight events</h2>
+        <span class="label">Pick an event for its stats</span>
+      </div>
+      <div class="tab-rack">
+        <div class="tab-rack__inner" id="event-tablist" role="tablist" aria-label="Events"></div>
+      </div>
+      <div class="event-panel" id="event-panel" role="tabpanel" tabindex="0"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <!-- The seal, inlined so it can take its colour from the text around it.
+         The standalone files are in assets/ for the favicon and anywhere else. -->
+    <svg class="seal" viewBox="0 0 200 200" role="img" aria-label="Brolympics seal">
+      <defs>
+        <path id="seal-arc-top" d="M 30 100 A 70 70 0 0 1 170 100" fill="none"/>
+        <path id="seal-arc-bot" d="M 16 100 A 84 84 0 0 0 184 100" fill="none"/>
+      </defs>
+      <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width="3"/>
+      <circle cx="100" cy="100" r="62" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <text font-family="Bahnschrift SemiCondensed, Bahnschrift, Barlow Condensed, Arial Narrow, sans-serif"
+            font-weight="700" font-size="22" letter-spacing="7" fill="currentColor"><textPath
+            href="#seal-arc-top" startOffset="50%" text-anchor="middle">BROLYMPICS</textPath></text>
+      <text font-family="Bahnschrift SemiCondensed, Bahnschrift, Barlow Condensed, Arial Narrow, sans-serif"
+            font-weight="600" font-size="15" letter-spacing="6" fill="currentColor"><textPath
+            href="#seal-arc-bot" startOffset="50%" text-anchor="middle">EST. 2026</textPath></text>
+      <circle cx="21" cy="100" r="3" fill="#D7322B"/>
+      <circle cx="179" cy="100" r="3" fill="#D7322B"/>
+      <text x="100" y="124" text-anchor="middle" font-family="Georgia, Gelasio, serif"
+            font-weight="700" font-style="italic" font-size="72" fill="currentColor">B</text>
+      <rect x="72" y="134" width="56" height="5" fill="#D7322B"/>
+    </svg>
+    <div class="site-footer__text">
+      <span class="label">Issued by the Committee</span>
+      <p class="body">Rulings are final. Footage is reviewed when the Committee decides
+        footage should be reviewed.</p>
+      <p class="site-footer__fine">Team names, colours and every figure on this page are
+        placeholders until draft night. The prize is still being decided.</p>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

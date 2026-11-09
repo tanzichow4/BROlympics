@@ -1,12 +1,24 @@
-import { useState } from 'react';
+import Events from './components/Events';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Schedule from './components/Schedule';
+import Standings from './components/Standings';
+import { useTheme } from './hooks/useTheme';
 
 export default function App() {
-  const [count, setCount] = useState(0);
+  const { theme, toggle } = useTheme();
 
   return (
-    <main>
-      <h1>BROlympics</h1>
-      <button onClick={() => setCount((c) => c + 1)}>Count is {count}</button>
-    </main>
+    <>
+      <Header theme={theme} onToggle={toggle} />
+      <main id="top">
+        <Hero />
+        <Standings />
+        <Schedule />
+        <Events />
+      </main>
+      <Footer />
+    </>
   );
 }

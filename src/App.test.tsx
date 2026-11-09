@@ -1,16 +1,55 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 
 describe('App', () => {
-  it('renders the heading', () => {
-    render(<App />);
-    expect(screen.getByRole('heading', { name: /brolympics/i })).toBeInTheDocument();
+  beforeEach(() => {
+    localStorage.clear();
   });
 
-  it('increments the counter on click', async () => {
+  it('shows the next event in the hero', () => {
     render(<App />);
-    await userEvent.click(screen.getByRole('button'));
-    expect(screen.getByRole('button')).toHaveTextContent('Count is 1');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/table tennis/i);
+  });
+
+  it('lists all eight events in the schedule', () => {
+    render(<App />);
+    const list = document.querySelector('#schedule ol') as HTMLElement;
+    expect(within(list).getAllByRole('listitem')).toHaveLength(8);
+  });
+
+  it('ranks the standings by points', () => {
+    render(<App />);
+    const body = document.querySelector('#standings tbody') as HTMLElement;
+    const rows = within(body).getAllByRole('row');
+    expect(rows).toHaveLength(5);
+    expect(rows[0]).toHaveTextContent('Team Navy');
+    expect(rows[0]).toHaveClass('is-leader');
+  });
+
+  it('toggles and remembers the theme', async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole('button', { name: 'Day' }));
+    expect(document.documentElement).toHaveAttribute('data-theme', 'day');
+    expect(localStorage.getItem('brolympics-theme')).toBe('day');
+    expect(screen.getByRole('button', { name: 'Night' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('switches events with the keyboard', async () => {
+    render(<App />);
+    const tabs = screen.getAllByRole('tab');
+    expect(tabs[3]).toHaveAttribute('aria-selected', 'true');
+    tabs[3].focus();
+    await userEvent.keyboard('{End}');
+    expect(tabs[7]).toHaveAttribute('aria-selected', 'true');
+    expect(screen.getByRole('tabpanel')).toHaveTextContent(/flag football/i);
+    await userEvent.keyboard('{ArrowRight}');
+    expect(tabs[0]).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('shows results for a finished event', async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole('tab', { name: /basketball/i }));
+    expect(within(screen.getByRole('tabpanel')).getAllByRole('row')).toHaveLength(6);
   });
 });

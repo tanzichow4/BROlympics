@@ -1,0 +1,14 @@
+{
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "liveServer.settings.root": "/",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "css.lint.unknownProperties": "ignore",
+  "files.associations": {
+    "*.css": "css"
+  },
+  "search.exclude": {
+    "**/node_modules": true
+  }
+}

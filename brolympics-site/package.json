@@ -1,0 +1,13 @@
+{
+  "name": "brolympics-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standings, schedule and event stats for Brolympics Season 1.",
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes serve .",
+    "start": "npx --yes serve ."
+  },
+  "keywords": ["brolympics", "static-site"],
+  "license": "UNLICENSED"
+}
