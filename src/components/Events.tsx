@@ -1,14 +1,17 @@
 import { useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
-import { EVENTS, NEXT_EVENT, pad2 } from '../data/season';
+import { nextEvent, pad2 } from '../data/season';
+import { useSeason } from '../data/useSeason';
 import EventPanel from './EventPanel';
 
 /** ARIA tabs: arrow keys move, Home/End jump, only the selected tab is tabbable. */
 export default function Events() {
+  const season = useSeason();
+  const EVENTS = season.events;
   const [index, setIndex] = useState(() =>
     Math.max(
       0,
-      EVENTS.findIndex((ev) => ev.no === NEXT_EVENT.no),
+      EVENTS.findIndex((ev) => ev.no === nextEvent(season).no),
     ),
   );
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);

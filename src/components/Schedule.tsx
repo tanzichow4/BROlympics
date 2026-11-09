@@ -1,8 +1,9 @@
-import { EVENTS, pad2 } from '../data/season';
-import { fullDate } from '../data/format';
+import { fullDate, pad2 } from '../data/season';
+import { useSeason } from '../data/useSeason';
 import { Badge } from './common';
 
 export default function Schedule() {
+  const { events } = useSeason();
   return (
     <section className="section" id="schedule">
       <div className="wrap">
@@ -11,7 +12,7 @@ export default function Schedule() {
           <span className="label">Season 1 · eight events</span>
         </div>
         <ol className="schedule">
-          {EVENTS.map((ev) => (
+          {events.map((ev) => (
             <li key={ev.no} className={ev.status === 'next' ? 'is-next' : undefined}>
               <span className="schedule__no">{pad2(ev.no)}</span>
               <span className="schedule__date">{fullDate(ev)}</span>

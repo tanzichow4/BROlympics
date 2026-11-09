@@ -1,9 +1,10 @@
-import { EVENTS, NEXT_EVENT, daysUntilNextEvent, pad2 } from '../data/season';
-import { fullDate } from '../data/format';
+import { daysUntilNextEvent, fullDate, nextEvent, pad2 } from '../data/season';
+import { useSeason } from '../data/useSeason';
 
 export default function Hero() {
-  const ev = NEXT_EVENT;
-  const days = daysUntilNextEvent();
+  const season = useSeason();
+  const ev = nextEvent(season);
+  const days = daysUntilNextEvent(season);
 
   return (
     <section className="hero">
@@ -20,7 +21,7 @@ export default function Hero() {
       </svg>
       <div className="wrap">
         <span className="label">
-          Season 1 · Event {pad2(ev.no)} of {pad2(EVENTS.length)}
+          Season 1 · Event {pad2(ev.no)} of {pad2(season.events.length)}
         </span>
         <h1 className="hero__title">
           <span className="hero__title-accent">the next event is</span>

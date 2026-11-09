@@ -4,6 +4,10 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    // In dev, Vite serves the page and the Node server handles the API.
+    proxy: { '/api': 'http://localhost:3001' },
+  },
   test: {
     environment: 'jsdom',
     globals: true,

@@ -1,15 +1,11 @@
-import {
-  EVENTS,
-  EVENTS_COMPLETE,
-  ORDINAL,
-  POINTS_REMAINING,
-  STANDINGS,
-  pad2,
-} from '../data/season';
+import { ORDINAL, buildStandings, eventsComplete, pad2, pointsRemaining } from '../data/season';
+import { useSeason } from '../data/useSeason';
 import { Swatch } from './common';
 
 export default function Standings() {
-  const total = EVENTS.length;
+  const season = useSeason();
+  const total = season.events.length;
+  const standings = buildStandings(season);
 
   return (
     <section className="section" id="standings">
@@ -17,7 +13,7 @@ export default function Standings() {
         <div className="section__head">
           <h2 className="h2">Standings</h2>
           <span className="label">
-            After event {pad2(EVENTS_COMPLETE)} of {pad2(total)}
+            After event {pad2(eventsComplete(season))} of {pad2(total)}
           </span>
         </div>
         <div className="table-scroll">
@@ -42,7 +38,7 @@ export default function Standings() {
               </tr>
             </thead>
             <tbody>
-              {STANDINGS.map((row) => (
+              {standings.map((row) => (
                 <tr key={row.id} className={row.pos === 1 ? 'is-leader' : undefined}>
                   <td className="league__pos">{row.pos}</td>
                   <td style={{ width: '1%' }}>
@@ -52,7 +48,7 @@ export default function Standings() {
                   <td>
                     <span className="form">
                       {row.form.map((f) => {
-                        const ev = EVENTS.find((e) => e.no === f.no);
+                        const ev = season.events.find((e) => e.no === f.no);
                         const kind =
                           f.place === 1
                             ? ' form__chip--win'
@@ -85,7 +81,7 @@ export default function Standings() {
           <span className="label">
             Placing points 10 · 7 · 5 · 3 · 1 — doubled at event {pad2(total)}
           </span>
-          <span className="label">{POINTS_REMAINING} points still on the table</span>
+          <span className="label">{pointsRemaining(season)} points still on the table</span>
         </div>
       </div>
     </section>

@@ -1,10 +1,11 @@
-import { EVENTS, ORDINAL, TEAMS, pad2, pointsFor } from '../data/season';
+import { ORDINAL, fullDate, pad2, pointsFor } from '../data/season';
 import type { SeasonEvent } from '../data/season';
+import { useSeason } from '../data/useSeason';
 import { courtInner } from '../data/courts';
-import { fullDate } from '../data/format';
 import { Badge, Swatch } from './common';
 
 function ResultTable({ ev }: { ev: SeasonEvent }) {
+  const { teams } = useSeason();
   return (
     <div className="table-scroll">
       <table className="result">
@@ -19,7 +20,7 @@ function ResultTable({ ev }: { ev: SeasonEvent }) {
         </thead>
         <tbody>
           {ev.results.map((r) => {
-            const team = TEAMS[r.team];
+            const team = teams[r.team];
             if (!team) return null;
             return (
               <tr key={r.team} className={r.place === 1 ? 'is-winner' : undefined}>
@@ -61,6 +62,7 @@ function EmptyState({ ev }: { ev: SeasonEvent }) {
 }
 
 export default function EventPanel({ ev }: { ev: SeasonEvent }) {
+  const { events } = useSeason();
   return (
     <>
       <div className="event-head">
@@ -73,7 +75,7 @@ export default function EventPanel({ ev }: { ev: SeasonEvent }) {
         />
         <Badge event={ev} />
         <span className="label">
-          Event {pad2(ev.no)} of {pad2(EVENTS.length)} · {fullDate(ev)}
+          Event {pad2(ev.no)} of {pad2(events.length)} · {fullDate(ev)}
         </span>
         <span className="event-head__title">{ev.name}</span>
         <p className="event-head__format">{ev.format}</p>
